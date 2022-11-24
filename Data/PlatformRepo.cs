@@ -9,6 +9,11 @@ namespace PlatformService.Data
     {
         private readonly AppDbContext _context;
 
+        public PlatformRepo(AppDbContext context)
+        {
+            _context = context;
+        }
+
         public void CreatePlatform(Platform platform)
         {
             if (platform == null)
