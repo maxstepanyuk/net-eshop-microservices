@@ -66,14 +66,14 @@ namespace PlatformService.Controllers
             try
             {
 
-                Console.WriteLine("--> Saving Platform - "+ id);
+                Console.WriteLine("--> Saving Platform");
                 var palatformModel = _mapper.Map<Platform>(platformCreateDto);
                 _repository.CreatePlatform(palatformModel);
                 _repository.SaveChanges();
 
                 var platformReadDto = _mapper.Map<PlatformReadDto>(palatformModel);
 
-                Console.WriteLine("--> Returning saved Platform - "+ id);
+                Console.WriteLine("--> Returning saved Platform");
                 return CreatedAtRoute(nameof(GetPlatformById), new {Id = platformReadDto.Id}, platformReadDto);
 
             }
