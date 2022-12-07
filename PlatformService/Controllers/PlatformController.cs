@@ -28,9 +28,9 @@ namespace PlatformService.Controllers
         {
             try
             {
-                // Console.WriteLine("--> Getting Platforms");
+                Console.WriteLine("--> Getting Platforms");
                 var platformItem = _repository.GetAllPlatforms();
-                // Console.WriteLine("--> Returning Platforms");
+                Console.WriteLine("--> Returning Platforms");
                 return Ok(_mapper.Map<IEnumerable<PlatformReadDto>>(platformItem));
             }
             catch (Exception e)
@@ -42,26 +42,46 @@ namespace PlatformService.Controllers
         [HttpGet("{id}", Name = "GetPlatformById")] //uri -  HttpPost
         public ActionResult<PlatformReadDto> GetPlatformById(int id)
         {
-            // Console.WriteLine("--> Getting Platform - "+ id);
-            var platformItem = _repository.GetPlatformById(id);
-            if (platformItem == null)
+            try
             {
-                return NotFound();
+                Console.WriteLine("--> Getting Platform - "+ id);
+                var platformItem = _repository.GetPlatformById(id);
+                if (platformItem == null)
+                {
+                    return NotFound();
+                }
+                Console.WriteLine("--> Returning Platform - "+ id);
+                return Ok(_mapper.Map<PlatformReadDto>(platformItem));
+        
             }
-            return Ok(_mapper.Map<PlatformReadDto>(platformItem));
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { e.Message});
+            }
         }
 
         [HttpPost]
         public ActionResult<PlatformReadDto> CreatePlatform(PlatformCreateDto platformCreateDto)
         {
-            var palatformModel = _mapper.Map<Platform>(platformCreateDto);
-            _repository.CreatePlatform(palatformModel);
-            _repository.SaveChanges();
+            try
+            {
 
-            var platformReadDto = _mapper.Map<PlatformReadDto>(palatformModel);
-            //todo here
+                Console.WriteLine("--> Saving Platform - "+ id);
+                var palatformModel = _mapper.Map<Platform>(platformCreateDto);
+                _repository.CreatePlatform(palatformModel);
+                _repository.SaveChanges();
+
+                var platformReadDto = _mapper.Map<PlatformReadDto>(palatformModel);
+
+                Console.WriteLine("--> Returning saved Platform - "+ id);
+                return CreatedAtRoute(nameof(GetPlatformById), new {Id = platformReadDto.Id}, platformReadDto);
+
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { e.Message});
+            }
             
-            return CreatedAtRoute(nameof(GetPlatformById), new {Id = platformReadDto.Id}, platformReadDto);
         }
     }
 }
