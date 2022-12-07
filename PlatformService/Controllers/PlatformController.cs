@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using PlatformService.Dtos;
 using PlatformService.Models;
 using AutoMapper;
+using Microsoft.AspNetCore.Http;
 
 namespace PlatformService.Controllers
 {
@@ -25,10 +26,17 @@ namespace PlatformService.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<PlatformReadDto>> GetPlatforms()
         {
-            // Console.WriteLine("--> Getting Platforms");
-            var platformItem = _repository.GetAllPlatforms();
-            // Console.WriteLine("--> Returning Platforms");
-            return Ok(_mapper.Map<IEnumerable<PlatformReadDto>>(platformItem));
+            try
+            {
+                // Console.WriteLine("--> Getting Platforms");
+                var platformItem = _repository.GetAllPlatforms();
+                // Console.WriteLine("--> Returning Platforms");
+                return Ok(_mapper.Map<IEnumerable<PlatformReadDto>>(platformItem));
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { e.Message});
+            }
         }
 
         [HttpGet("{id}", Name = "GetPlatformById")] //uri -  HttpPost
