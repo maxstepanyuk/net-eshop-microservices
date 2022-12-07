@@ -9,8 +9,8 @@ dotnet run
 docker build -t maksstep/platform-service .
 
 # docker run the the NEW instanse of a container (port mapping/forwarding)
-# docker run -p 8080:80 -d maksstep/platform-service #in background
-docker run -p 8080:5000 maksstep/platform-service #in terminal
+# -d in background
+docker run -p 8080:80 -d maksstep/platform-service #in background
 
 #docker push to web dockerhub
 docker push maksstep/platform-service
