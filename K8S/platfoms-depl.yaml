@@ -14,5 +14,4 @@ spec:
     spec:
       containers: # to run
         - name: platformservice # - array
-          # image: binarythistle/platformservice:latest
           image: maksstep/platform-service:latest # docker img
