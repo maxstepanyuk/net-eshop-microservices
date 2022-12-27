@@ -1,17 +1,17 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: platforms-depl
+  name: platforms-depl #name of the Deployment 
 spec:
   replicas: 1 #number of instanses
   selector: # select a template
     matchLabels:
-      app: platformservice
+      app: platform-service
   template: #defime pod and container
     metadata:
       labels:
-        app: platformservice
+        app: platform-service
     spec:
       containers: # to run
-        - name: platformservice # - array
+        - name: platform-service # - array
           image: maksstep/platform-service:latest # docker img
