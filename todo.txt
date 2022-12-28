@@ -1,11 +1,17 @@
 Platform    port  5000
 - net 5 to 6
 
-Commands    
-Product     
-Order       
-Customer    
+Commands
+
+Product
+Order
+Customer
 + packages
 + delete weather
-- ports
-? startup (like in net 5) 
++ ports (self sortede - rand) 
++ controllers - http FOR TESTING for Platform+Commands (no - Customer and Product from Order), commit
+
+- models
+- controllers
+
+? startup (like in net 5)   

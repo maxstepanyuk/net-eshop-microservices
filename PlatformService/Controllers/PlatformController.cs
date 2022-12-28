@@ -5,6 +5,8 @@ using PlatformService.Dtos;
 using PlatformService.Models;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
+using PlatformService.SyncDataServices.Http;
+using System.Threading.Tasks;
 
 namespace PlatformService.Controllers
 {
@@ -15,11 +17,16 @@ namespace PlatformService.Controllers
     {
         private readonly IPlatformRepo _repository;
         private readonly IMapper _mapper;
+        private readonly ICommandDataClient _commandDataClient;
 
-        public PlatformsController(IPlatformRepo repository, IMapper mapper)
+        public PlatformsController(
+            IPlatformRepo repository,
+            IMapper mapper,
+            ICommandDataClient commandDataClient)
         {
             _mapper = mapper;
             _repository = repository;
+            _commandDataClient = commandDataClient;
         }
 
         [HttpGet]
@@ -34,7 +41,7 @@ namespace PlatformService.Controllers
             }
             catch (Exception e)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new { e.Message});
+                return StatusCode(StatusCodes.Status500InternalServerError, new { e.Message });
             }
         }
 
@@ -43,44 +50,44 @@ namespace PlatformService.Controllers
         {
             try
             {
-                Console.WriteLine("--> Getting Platform - "+ id);
+                Console.WriteLine("--> Getting Platform - " + id);
                 var platformItem = _repository.GetPlatformById(id);
                 if (platformItem == null)
                 {
                     return NotFound();
                 }
-                Console.WriteLine("--> Returning Platform - "+ id);
+                Console.WriteLine("--> Returning Platform - " + id);
                 return Ok(_mapper.Map<PlatformReadDto>(platformItem));
-        
+
             }
             catch (Exception e)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new { e.Message});
+                return StatusCode(StatusCodes.Status500InternalServerError, new { e.Message });
             }
         }
 
         [HttpPost]
-        public ActionResult<PlatformReadDto> CreatePlatform(PlatformCreateDto platformCreateDto)
+        public async Task<ActionResult<PlatformReadDto>> CreatePlatform(PlatformCreateDto platformCreateDto)
         {
+            Console.WriteLine("--> Saving Platform");
+            var palatformModel = _mapper.Map<Platform>(platformCreateDto);
+            _repository.CreatePlatform(palatformModel);
+            _repository.SaveChanges();
+
+            var platformReadDto = _mapper.Map<PlatformReadDto>(palatformModel);
+
+            //     Console.WriteLine("--> Returning saved Platform");
+
             try
             {
-
-                Console.WriteLine("--> Saving Platform");
-                var palatformModel = _mapper.Map<Platform>(platformCreateDto);
-                _repository.CreatePlatform(palatformModel);
-                _repository.SaveChanges();
-
-                var platformReadDto = _mapper.Map<PlatformReadDto>(palatformModel);
-
-                Console.WriteLine("--> Returning saved Platform");
-                return CreatedAtRoute(nameof(GetPlatformById), new {Id = platformReadDto.Id}, platformReadDto);
-
+                await _commandDataClient.SendPlatformToCommand(platformReadDto);
             }
             catch (Exception e)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new { e.Message});
+                Console.WriteLine($"--> Couldn save sync: {e.Message}");
+                // return StatusCode(StatusCodes.Status500InternalServerError, new { e.Message });
             }
-            
+            return CreatedAtRoute(nameof(GetPlatformById), new {Id = platformReadDto.Id}, platformReadDto);
         }
     }
 }
