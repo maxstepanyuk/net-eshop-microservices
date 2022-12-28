@@ -1,0 +1,11 @@
+Platform    port  5000
+- net 5 to 6
+
+Commands    
+Product     
+Order       
+Customer    
+- packages
+- weather
+- ports
+? startup as in net 5 
