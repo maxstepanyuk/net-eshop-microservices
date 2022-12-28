@@ -5,7 +5,7 @@ Commands
 Product     
 Order       
 Customer    
-- packages
-- weather
++ packages
++ delete weather
 - ports
-? startup as in net 5 
+? startup (like in net 5) 
