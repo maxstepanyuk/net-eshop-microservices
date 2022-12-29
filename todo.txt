@@ -1,17 +1,16 @@
-Platform    port  5000
-- net 5 to 6
-
-Commands
-
-Product
-Order
+Product - mongoDB
++ models: classes
+Commands - sql
+Order - sql
 Customer
-+ packages
-+ delete weather
-+ ports (self sortede - rand) 
-+ controllers - http FOR TESTING for Platform+Commands (no - Customer and Product from Order), commit
+- models: classes - [ForeignKey("")]
+- dbc
+- dto
+- Controllers
+- Data
+- Dtos
+- Profiles
+- startup (like in net 5)   
 
-- models
-- controllers
-
-? startup (like in net 5)   
+Platform - sql
+- net 5 to 6
