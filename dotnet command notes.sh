@@ -7,7 +7,4 @@ dotnet add package Microsoft.EntityFrameworkCore
 dotnet add package Microsoft.EntityFrameworkCore.Design
 dotnet add package Microsoft.EntityFrameworkCore.InMemory
 
-# navigation
-cd ..
-clear
-ls
+dotnet add package MongoDB.Driver
