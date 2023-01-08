@@ -1,16 +1,18 @@
 Product - mongoDB
-+ models: classes
 Commands - sql
 Order - sql
-Customer
-- models: classes - [ForeignKey("")]
-- dbc
-- dto
-- Controllers
+- startup (like in net 5)
+Customer - sql
 - Data
+    - dbc
+        https://youtu.be/DgVjEo3OGBI?t=3625
+- models: classes - [ForeignKey("")]
+- Controllers
 - Dtos
 - Profiles
-- startup (like in net 5)   
+
+- inMemDB
+- sql/mdb    
 
 Platform - sql
 - net 5 to 6
