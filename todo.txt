@@ -1,6 +1,6 @@
-Product - mongoDB
 Commands - sql
-- startup (like in net 5)
+- startup (like in net 5) https://youtu.be/cuOKV_0b-JI
+Product - mongoDB
 Order - sql
 Customer - sql
 - Data
