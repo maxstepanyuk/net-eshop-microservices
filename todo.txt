@@ -1,7 +1,7 @@
 Product - mongoDB
 Commands - sql
-Order - sql
 - startup (like in net 5)
+Order - sql
 Customer - sql
 - Data
     - dbc
